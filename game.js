@@ -56,10 +56,9 @@ const draw = (ctx) => {
     const totalLineHeight = canvasHeight * getLengthOfLine();
     const lengthScalingFactor = getLengthScalingFactor();
 
-    const initialThickness = getLineThickness(); // Starting thickness
+    const initialThickness = getLineThickness();
     const layerQuantity = getLayerQuantity();
     
-    // Calculate the line thickness decrement per layer
     const thicknessDecrement = (initialThickness - 1) / (layerQuantity - 1);
 
     if (typeof draw.currentHeight === 'undefined') {
@@ -90,9 +89,8 @@ const draw = (ctx) => {
             ctx.moveTo(line.xStart, line.yStart);
             ctx.lineTo(line.xEnd, line.yEnd);
 
-            // Dynamically adjust line thickness based on layer count
             const currentThickness = initialThickness - draw.layerCount * thicknessDecrement;
-            ctx.lineWidth = Math.max(1, currentThickness); // Ensure thickness doesn't go below 1
+            ctx.lineWidth = Math.max(1, currentThickness);
 
             ctx.strokeStyle = getLineColor();
             ctx.stroke();
