@@ -1,5 +1,5 @@
 import { localize } from './localization.js';
-import { setBeginGameStatus, setGameStateVariable, getBeginGameStatus, getMenuState, getGameVisiblePaused, getGameVisibleActive, getElements, getLanguage, gameState } from './constantsAndGlobalVars.js';
+import { setBeginGameStatus, setGameStateVariable, getBeginGameStatus, getMenuState, getGameVisibleActive, getElements, getLanguage, gameState } from './constantsAndGlobalVars.js';
 
 //--------------------------------------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ export function startGame() {
 
 export async function gameLoop() {
     const ctx = getElements().canvas.getContext('2d');
-    if (gameState === getGameVisibleActive() || gameState === getGameVisiblePaused()) {
+    if (gameState === getGameVisibleActive()) {
         ctx.clearRect(0, 0, getElements().canvas.width, getElements().canvas.height);
 
         if (gameState === getGameVisibleActive()) {
@@ -75,25 +75,12 @@ export function setGameState(newState) {
             getElements().buttonRow.classList.remove('d-flex');
             getElements().canvasContainer.classList.remove('d-flex');
             getElements().canvasContainer.classList.add('d-none');
-            getElements().returnToMenuButton.classList.remove('d-flex');
-            getElements().returnToMenuButton.classList.add('d-none');
+            // getElements().returnToMenuButton.classList.remove('d-flex');
+            // getElements().returnToMenuButton.classList.add('d-none');
             getElements().button1.classList.add('d-none');
-            getElements().button2.classList.add('d-none');
+            // getElements().button2.classList.add('d-none');
 
             console.log("Language is " + getLanguage());
-            break;
-        case getGameVisiblePaused():
-            getElements().menu.classList.remove('d-flex');
-            getElements().menu.classList.add('d-none');
-            getElements().buttonRow.classList.remove('d-none');
-            getElements().buttonRow.classList.add('d-flex');
-            getElements().canvasContainer.classList.remove('d-none');
-            getElements().canvasContainer.classList.add('d-flex');
-            getElements().returnToMenuButton.classList.remove('d-none');
-            getElements().returnToMenuButton.classList.add('d-flex');
-            getElements().returnToMenuButton.innerHTML = `${localize('menuTitle', getLanguage())}`;
-            getElements().button1.classList.add('d-none');
-            getElements().button2.classList.add('d-none');
             break;
         case getGameVisibleActive():
             getElements().menu.classList.remove('d-flex');
@@ -102,11 +89,11 @@ export function setGameState(newState) {
             getElements().buttonRow.classList.add('d-flex');
             getElements().canvasContainer.classList.remove('d-none');
             getElements().canvasContainer.classList.add('d-flex');
-            getElements().returnToMenuButton.classList.remove('d-none');
-            getElements().returnToMenuButton.classList.add('d-flex');
-            getElements().returnToMenuButton.innerHTML = `${localize('menuTitle', getLanguage())}`;
+            // getElements().returnToMenuButton.classList.remove('d-none');
+            // getElements().returnToMenuButton.classList.add('d-flex');
+            // getElements().returnToMenuButton.innerHTML = `${localize('menuTitle', getLanguage())}`;
             getElements().button1.classList.remove('d-none');
-            getElements().button2.classList.remove('d-none');
+            // getElements().button2.classList.remove('d-none');
             break;
     }
 }

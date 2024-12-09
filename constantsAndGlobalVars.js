@@ -13,12 +13,7 @@ let oldLanguage = 'en';
 //CONSTANTS
 export let gameState;
 export const MENU_STATE = 'menuState';
-export const GAME_VISIBLE_PAUSED = 'gameVisiblePaused';
 export const GAME_VISIBLE_ACTIVE = 'gameVisibleActive';
-export const NUMBER_OF_ENEMY_SQUARES = 10;
-export const INITIAL_SPEED_PLAYER = 4;
-export const INITIAL_SPEED_MOVING_ENEMY = 4;
-export const MAX_ATTEMPTS_TO_DRAW_ENEMIES = 1000;
 
 export const DICTIONARY_URL = './resources/WebstersEnglishDictionary-master/dictionary.json';
 
@@ -147,28 +142,8 @@ export function getMenuState() {
     return MENU_STATE;
 }
 
-export function getGameVisiblePaused() {
-    return GAME_VISIBLE_PAUSED;
-}
-
 export function getGameVisibleActive() {
     return GAME_VISIBLE_ACTIVE;
-}
-
-export function getNumberOfEnemySquares() {
-    return NUMBER_OF_ENEMY_SQUARES;
-}
-
-export function getInitialSpeedPlayer() {
-    return INITIAL_SPEED_PLAYER;
-}
-
-export function getInitialSpeedMovingEnemy() {
-    return INITIAL_SPEED_MOVING_ENEMY;
-}
-
-export function getMaxAttemptsToDrawEnemies() {
-    return MAX_ATTEMPTS_TO_DRAW_ENEMIES;
 }
 
 export function getLanguageSelected() {

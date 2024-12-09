@@ -1,5 +1,5 @@
-import { getLanguage, setElements, getElements, setBeginGameStatus, getGameInProgress, setGameInProgress, getGameVisiblePaused, getBeginGameStatus, getGameVisibleActive, getMenuState, getLanguageSelected, setLanguageSelected, setLanguage } from './constantsAndGlobalVars.js';
-import { setGameState, startGame, gameLoop } from './game.js';
+import { getLanguage, setElements, getElements, setBeginGameStatus, getGameInProgress, setGameInProgress, getGameVisibleActive, getMenuState, getLanguageSelected, setLanguageSelected, setLanguage } from './constantsAndGlobalVars.js';
+import { setGameState, startGame } from './game.js';
 import { initLocalization, localize } from './localization.js';
 
 
@@ -11,22 +11,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!getGameInProgress()) {
             setGameInProgress(true);
         }
-        setGameState(getGameVisiblePaused());
+        setGameState(getGameVisibleActive());
         //PRE GAME START CODE HERE AFTER NEW GAME CLICKED
         startGame();
     });
 
-    getElements().returnToMenuButton.addEventListener('click', () => {
-        setGameState(getMenuState());
-    });
+    // getElements().returnToMenuButton.addEventListener('click', () => {
+    //     setGameState(getMenuState());
+    // });
 
     getElements().button1.addEventListener('click', () => {
         //BUTTON 1 CODE
     });
 
-    getElements().button2.addEventListener('click', () => {
-        //BUTTON 2 CODE
-    });
+    // getElements().button2.addEventListener('click', () => {
+    //     //BUTTON 2 CODE
+    // });
 
     setGameState(getMenuState());
     handleLanguageChange(getLanguageSelected());
