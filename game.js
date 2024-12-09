@@ -1,5 +1,5 @@
 import { localize } from './localization.js';
-import { setBeginGameStatus, setGameStateVariable, getBeginGameStatus, getMenuState, getGameVisibleActive, getElements, getLanguage, gameState } from './constantsAndGlobalVars.js';
+import { getLineThickness, setLineThickness, getLayersQuantity, getAngleDegrees, getLineColor, getLengthScalingFactor, getDrawSpeed, getDrawingNow, setBeginGameStatus, setGameStateVariable, getBeginGameStatus, getMenuState, getGameVisibleActive, getElements, getLanguage, gameState } from './constantsAndGlobalVars.js';
 
 //--------------------------------------------------------------------------------------------------------
 
@@ -34,31 +34,130 @@ export function startGame() {
 export async function gameLoop() {
     const ctx = getElements().canvas.getContext('2d');
     if (gameState === getGameVisibleActive()) {
-        ctx.clearRect(0, 0, getElements().canvas.width, getElements().canvas.height);
 
-        if (gameState === getGameVisibleActive()) {
+        if (gameState === getGameVisibleActive() && getDrawingNow()) {
             draw(ctx);
         }
-
-        await gameLoopFunction();
 
         requestAnimationFrame(gameLoop);
     }
 }
 
-
-function draw(ctx) {
+const draw = (ctx) => {
     const canvasWidth = getElements().canvas.width;
     const canvasHeight = getElements().canvas.height;
 
-    // Clear the previous drawing
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    const xMid = canvasWidth / 2;
+    const yStart = canvasHeight - (canvasHeight * 0.05);
+    const totalLineHeight = canvasHeight * 0.25;
+    const lengthScalingFactor = getLengthScalingFactor();
 
-}
+    const initialThickness = getLineThickness(); // Starting thickness
+    const layerQuantity = getLayersQuantity();
+    
+    // Calculate the line thickness decrement per layer
+    const thicknessDecrement = (initialThickness - 1) / (layerQuantity - 1);
 
-export async function gameLoopFunction() {
+    if (typeof draw.currentHeight === 'undefined') {
+        draw.currentHeight = 0;
+    }
+    if (typeof draw.isDrawingAngledLines === 'undefined') {
+        draw.isDrawingAngledLines = false;
+    }
+    if (typeof draw.angledLineProgress === 'undefined') {
+        draw.angledLineProgress = 0;
+    }
+    if (typeof draw.lines === 'undefined') {
+        draw.lines = [];
+    }
+    if (typeof draw.activeEndpoints === 'undefined') {
+        draw.activeEndpoints = [];
+    }
+    if (typeof draw.currentLayerLength === 'undefined') {
+        draw.currentLayerLength = totalLineHeight * lengthScalingFactor;
+    }
+    if (typeof draw.layerCount === 'undefined') {
+        draw.layerCount = 0;
+    }
 
-}
+    const drawStoredLines = () => {
+        for (const line of draw.lines) {
+            ctx.beginPath();
+            ctx.moveTo(line.xStart, line.yStart);
+            ctx.lineTo(line.xEnd, line.yEnd);
+
+            // Dynamically adjust line thickness based on layer count
+            const currentThickness = initialThickness - draw.layerCount * thicknessDecrement;
+            ctx.lineWidth = Math.max(1, currentThickness); // Ensure thickness doesn't go below 1
+
+            ctx.strokeStyle = getLineColor();
+            ctx.stroke();
+        }
+    };
+
+    const addLine = (xStart, yStart, xEnd, yEnd, prevX, prevY) => {
+        draw.lines.push({ xStart, yStart, xEnd, yEnd });
+        draw.activeEndpoints.push({ x: xEnd, y: yEnd, prevX, prevY });
+    };
+
+    const drawVerticalLine = () => {
+        const yEnd = yStart - draw.currentHeight;
+        addLine(xMid, yStart, xMid, yEnd, xMid, yStart);
+        draw.currentHeight = Math.min(draw.currentHeight + getDrawSpeed(), totalLineHeight);
+
+        if (draw.currentHeight >= totalLineHeight) {
+            draw.isDrawingAngledLines = true;
+            draw.activeEndpoints = [{ x: xMid, y: yEnd, prevX: xMid, prevY: yStart }];
+        }
+    };
+
+    const drawAngledLines = () => {
+        const angleRadians = getAngleDegrees() * (Math.PI / 180);
+        const newEndpoints = [];
+
+        if (draw.layerCount >= layerQuantity - 1) {
+            return;
+        }
+
+        for (const point of draw.activeEndpoints) {
+            const progress = draw.angledLineProgress;
+            const dx = point.x - point.prevX;
+            const dy = point.y - point.prevY;
+            const lineAngle = Math.atan2(dy, dx);
+            const leftAngle = lineAngle - angleRadians;
+            const rightAngle = lineAngle + angleRadians;
+
+            const xLeftEnd = point.x + (progress * Math.cos(leftAngle));
+            const yLeftEnd = point.y + (progress * Math.sin(leftAngle));
+            const xRightEnd = point.x + (progress * Math.cos(rightAngle));
+            const yRightEnd = point.y + (progress * Math.sin(rightAngle));
+
+            draw.lines.push({ xStart: point.x, yStart: point.y, xEnd: xLeftEnd, yEnd: yLeftEnd });
+            draw.lines.push({ xStart: point.x, yStart: point.y, xEnd: xRightEnd, yEnd: yRightEnd });
+
+            newEndpoints.push({ x: xLeftEnd, y: yLeftEnd, prevX: point.x, prevY: point.y });
+            newEndpoints.push({ x: xRightEnd, y: yRightEnd, prevX: point.x, prevY: point.y });
+        }
+
+        draw.angledLineProgress = Math.min(draw.angledLineProgress + getDrawSpeed(), draw.currentLayerLength);
+
+        if (draw.angledLineProgress >= draw.currentLayerLength) {
+            draw.activeEndpoints = newEndpoints;
+            draw.angledLineProgress = 0;
+            draw.layerCount += 1;
+            draw.currentLayerLength *= lengthScalingFactor;
+        }
+    };
+
+    drawStoredLines();
+
+    if (!draw.isDrawingAngledLines) {
+        drawVerticalLine();
+    } else {
+        drawAngledLines();
+    }
+};
+
 
 //===============================================================================================================
 

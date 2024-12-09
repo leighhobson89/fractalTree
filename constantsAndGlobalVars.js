@@ -14,8 +14,10 @@ let oldLanguage = 'en';
 export let gameState;
 export const MENU_STATE = 'menuState';
 export const GAME_VISIBLE_ACTIVE = 'gameVisibleActive';
-
-export const DICTIONARY_URL = './resources/WebstersEnglishDictionary-master/dictionary.json';
+export const DRAW_SPEED = 2;
+export const LENGTH_SCALING_FACTOR = 0.66;
+export const ANGLE_DEGREES = 45;
+export const LAYERS_QUANTITY = 5;
 
 //GLOBAL VARIABLES
 
@@ -24,6 +26,9 @@ let audioMuted;
 let languageChangedFlag;
 let beginGameState = true;
 let gameInProgress = false;
+let drawingNow = false;
+let lineColor = "rgb(0,255,0)";
+let lineThickness = 5;
 
 let autoSaveOn = false;
 export let pauseAutoSaveCountdown = true;
@@ -168,4 +173,40 @@ export function getGameInProgress() {
 
 export function setGameInProgress(value) {
     gameInProgress = value;
+}
+
+export function getDrawingNow() {
+    return drawingNow;
+}
+
+export function setDrawingNow(value) {
+    drawingNow = value;
+}
+
+export function getDrawSpeed() {
+    return DRAW_SPEED;
+}
+
+export function getLengthScalingFactor() {
+    return LENGTH_SCALING_FACTOR;
+}
+
+export function getLineColor() {
+    return lineColor;
+}
+
+export function getAngleDegrees() {
+    return ANGLE_DEGREES;
+}
+
+export function getLayersQuantity() {
+    return LAYERS_QUANTITY;
+}
+
+export function setLineThickness(value) {
+    lineThickness = value;
+}
+
+export function getLineThickness() {
+    return lineThickness;
 }

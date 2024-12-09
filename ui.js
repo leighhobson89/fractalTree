@@ -1,4 +1,4 @@
-import { getLanguage, setElements, getElements, setBeginGameStatus, getGameInProgress, setGameInProgress, getGameVisibleActive, getMenuState, getLanguageSelected, setLanguageSelected, setLanguage } from './constantsAndGlobalVars.js';
+import { getLanguage, setElements, getElements, setBeginGameStatus, getGameInProgress, setGameInProgress, getGameVisibleActive, getMenuState, getLanguageSelected, setLanguageSelected, setLanguage, getDrawingNow, setDrawingNow } from './constantsAndGlobalVars.js';
 import { setGameState, startGame } from './game.js';
 import { initLocalization, localize } from './localization.js';
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // });
 
     getElements().button1.addEventListener('click', () => {
-        //BUTTON 1 CODE
+        setDrawingNow(!getDrawingNow());
     });
 
     // getElements().button2.addEventListener('click', () => {
