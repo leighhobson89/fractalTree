@@ -1,5 +1,4 @@
-import { localize } from './localization.js';
-import { getLineThickness, setLineThickness, getLayersQuantity, getAngleDegrees, getLineColor, getLengthScalingFactor, getDrawSpeed, getDrawingNow, setBeginGameStatus, setGameStateVariable, getBeginGameStatus, getMenuState, getGameVisibleActive, getElements, getLanguage, gameState } from './constantsAndGlobalVars.js';
+import { setLengthOfLine, getLengthOfLine, setDrawingNow, setLayerQuantity, setAngleOfLines, setLengthScalingFactor, setTreeDrawSpeed, setLineThickness, getLineThickness, getLayerQuantity, getAngleOfLines, getLineColor, getLengthScalingFactor, getTreeDrawSpeed, getDrawingNow, setBeginGameStatus, setGameStateVariable, getBeginGameStatus, getMenuState, getGameVisibleActive, getElements, getLanguage, gameState } from './constantsAndGlobalVars.js';
 
 //--------------------------------------------------------------------------------------------------------
 
@@ -28,11 +27,16 @@ export function startGame() {
     }
     setGameState(getGameVisibleActive());
 
+    initialiseSideBarElements();
+
     gameLoop();
 }
 
 export async function gameLoop() {
     const ctx = getElements().canvas.getContext('2d');
+
+    updateInputFieldValues();
+
     if (gameState === getGameVisibleActive()) {
 
         if (gameState === getGameVisibleActive() && getDrawingNow()) {
@@ -49,11 +53,11 @@ const draw = (ctx) => {
 
     const xMid = canvasWidth / 2;
     const yStart = canvasHeight - (canvasHeight * 0.05);
-    const totalLineHeight = canvasHeight * 0.25;
+    const totalLineHeight = canvasHeight * getLengthOfLine();
     const lengthScalingFactor = getLengthScalingFactor();
 
     const initialThickness = getLineThickness(); // Starting thickness
-    const layerQuantity = getLayersQuantity();
+    const layerQuantity = getLayerQuantity();
     
     // Calculate the line thickness decrement per layer
     const thicknessDecrement = (initialThickness - 1) / (layerQuantity - 1);
@@ -103,7 +107,7 @@ const draw = (ctx) => {
     const drawVerticalLine = () => {
         const yEnd = yStart - draw.currentHeight;
         addLine(xMid, yStart, xMid, yEnd, xMid, yStart);
-        draw.currentHeight = Math.min(draw.currentHeight + getDrawSpeed(), totalLineHeight);
+        draw.currentHeight = Math.min(draw.currentHeight + getTreeDrawSpeed(), totalLineHeight);
 
         if (draw.currentHeight >= totalLineHeight) {
             draw.isDrawingAngledLines = true;
@@ -112,7 +116,7 @@ const draw = (ctx) => {
     };
 
     const drawAngledLines = () => {
-        const angleRadians = getAngleDegrees() * (Math.PI / 180);
+        const angleRadians = getAngleOfLines() * (Math.PI / 180);
         const newEndpoints = [];
 
         if (draw.layerCount >= layerQuantity - 1) {
@@ -139,7 +143,7 @@ const draw = (ctx) => {
             newEndpoints.push({ x: xRightEnd, y: yRightEnd, prevX: point.x, prevY: point.y });
         }
 
-        draw.angledLineProgress = Math.min(draw.angledLineProgress + getDrawSpeed(), draw.currentLayerLength);
+        draw.angledLineProgress = Math.min(draw.angledLineProgress + getTreeDrawSpeed(), draw.currentLayerLength);
 
         if (draw.angledLineProgress >= draw.currentLayerLength) {
             draw.activeEndpoints = newEndpoints;
@@ -156,7 +160,135 @@ const draw = (ctx) => {
     } else {
         drawAngledLines();
     }
+
+    if (draw.layerCount + 1 >= layerQuantity) {
+        setDrawingNow(false);
+    }
 };
+
+
+export function clearCanvasAndReset() {
+    const ctx = getElements().canvas.getContext('2d');
+    const canvasWidth = getElements().canvas.width;
+    const canvasHeight = getElements().canvas.height;
+
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+    // Reset all draw-related variables
+    draw.currentHeight = 0;
+    draw.isDrawingAngledLines = false;
+    draw.angledLineProgress = 0;
+    draw.lines = [];
+    draw.activeEndpoints = [];
+    draw.currentLayerLength = canvasHeight * 0.25 * getLengthScalingFactor();
+    draw.layerCount = 0;
+}
+
+
+function initialiseSideBarElements() {
+    getElements().layerQuantity.value = getLayerQuantity();
+    getElements().angleOfLines.value = getAngleOfLines();
+    getElements().lengthOfLine.value = getLengthOfLine();
+    getElements().lengthScalingFactor.value = getLengthScalingFactor();
+    getElements().treeDrawSpeed.value = getTreeDrawSpeed();
+
+    getElements().layerQuantity.classList.remove('d-none');
+    getElements().angleOfLines.classList.remove('d-none');
+    getElements().lengthOfLine.classList.remove('d-none');
+    getElements().lengthScalingFactor.classList.remove('d-none');
+    getElements().treeDrawSpeed.classList.remove('d-none');
+
+    getElements().layerQuantityLabel.classList.remove('d-none');
+    getElements().angleOfLinesLabel.classList.remove('d-none');
+    getElements().lengthOfLineLabel.classList.remove('d-none');
+    getElements().lengthScalingFactorLabel.classList.remove('d-none');
+    getElements().treeDrawSpeedLabel.classList.remove('d-none');
+}
+
+
+export function updateInputFieldValues() {
+    const layerQuantityField = getElements().layerQuantity;
+    const angleOfLinesField = getElements().angleOfLines;
+    const lengthOfLineField = getElements().lengthOfLine;
+    const lengthScalingFactorField = getElements().lengthScalingFactor;
+    const treeDrawSpeedField = getElements().treeDrawSpeed;
+
+    // Get the values of the fields
+    const layerQuantityValue = parseInt(layerQuantityField.value);
+    const angleOfLinesValue = parseFloat(angleOfLinesField.value);
+    const lengthOfLineValue = parseFloat(lengthOfLineField.value);
+    const lengthScalingFactorValue = parseFloat(lengthScalingFactorField.value);
+    const treeDrawSpeedValue = parseFloat(treeDrawSpeedField.value);
+
+    // Validation flags
+    let validLayerQuantity = true;
+    let validAngleOfLines = true;
+    let validLengthOfLine = true;
+    let validLengthScalingFactor = true;
+    let validTreeDrawSpeed = true;
+
+    // Validate layerQuantity
+    if (isNaN(layerQuantityValue) || layerQuantityValue > 15) {
+        layerQuantityField.style.color = 'red';
+        validLayerQuantity = false;
+    } else {
+        layerQuantityField.style.color = 'black';
+    }
+
+    // Validate angleOfLines
+    if (isNaN(angleOfLinesValue) || angleOfLinesValue < 1 || angleOfLinesValue > 90) {
+        angleOfLinesField.style.color = 'red';
+        validAngleOfLines = false;
+    } else {
+        angleOfLinesField.style.color = 'black';
+    }
+
+    // Validate lengthOfLine
+    if (isNaN(lengthOfLineValue) || lengthOfLineValue < 0.1 || lengthOfLineValue > 0.99) {
+        lengthOfLineField.style.color = 'red';
+        validLengthOfLine = false;
+    } else {
+        lengthOfLineField.style.color = 'black';
+    }
+
+    // Validate lengthScalingFactor
+    if (isNaN(lengthScalingFactorValue) || lengthScalingFactorValue < 0.1 || lengthScalingFactorValue > 0.7) {
+        lengthScalingFactorField.style.color = 'red';
+        validLengthScalingFactor = false;
+    } else {
+        lengthScalingFactorField.style.color = 'black';
+    }
+
+    // Validate treeDrawSpeed
+    if (isNaN(treeDrawSpeedValue)) {
+        treeDrawSpeedField.style.color = 'red';
+        validTreeDrawSpeed = false;
+    } else {
+        treeDrawSpeedField.style.color = 'black';
+    }
+
+    // Set the values only if valid
+    if (validLayerQuantity) {
+        setLayerQuantity(layerQuantityValue);
+    }
+
+    if (validAngleOfLines) {
+        setAngleOfLines(angleOfLinesValue);
+    }
+
+    if (validLengthOfLine) {
+        setLengthOfLine(lengthOfLineValue);  
+    }
+
+    if (validLengthScalingFactor) {
+        setLengthScalingFactor(lengthScalingFactorValue);
+    }
+
+    if (validTreeDrawSpeed) {
+        setTreeDrawSpeed(treeDrawSpeedValue);
+    }
+}
 
 
 //===============================================================================================================

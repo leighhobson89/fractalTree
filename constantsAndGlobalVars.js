@@ -14,10 +14,6 @@ let oldLanguage = 'en';
 export let gameState;
 export const MENU_STATE = 'menuState';
 export const GAME_VISIBLE_ACTIVE = 'gameVisibleActive';
-export const DRAW_SPEED = 2;
-export const LENGTH_SCALING_FACTOR = 0.66;
-export const ANGLE_DEGREES = 45;
-export const LAYERS_QUANTITY = 5;
 
 //GLOBAL VARIABLES
 
@@ -27,8 +23,14 @@ let languageChangedFlag;
 let beginGameState = true;
 let gameInProgress = false;
 let drawingNow = false;
-let lineColor = "rgb(0,255,0)";
 let lineThickness = 5;
+let lineColor = 'green';
+
+let layerQuantity = 20;
+let angleOfLines = 66;
+let lengthScalingFactor = 0.66;
+let treeDrawSpeed = 2;
+let lengthOfInitialLine = 0.25;
 
 let autoSaveOn = false;
 export let pauseAutoSaveCountdown = true;
@@ -45,13 +47,18 @@ export function setElements() {
         buttonRow: document.getElementById('buttonRow'),
         overlay: document.getElementById('overlay'),
         button1: document.getElementById('button1'),
-        button2: document.getElementById('button2')
+        button2: document.getElementById('button2'),
+        layerQuantity: document.getElementById('layerQuantity'),
+        angleOfLines: document.getElementById('angleOfLines'),
+        lengthScalingFactor: document.getElementById('lengthScalingFactor'),
+        treeDrawSpeed: document.getElementById('treeDrawSpeed'),
+        layerQuantityLabel: document.querySelector('label[for="layerQuantity"]'),
+        angleOfLinesLabel: document.querySelector('label[for="angleOfLines"]'),
+        lengthScalingFactorLabel: document.querySelector('label[for="lengthScalingFactor"]'),
+        treeDrawSpeedLabel: document.querySelector('label[for="treeDrawSpeed"]'),
+        lengthOfLine: document.getElementById('lengthOfLine'),
+        lengthOfLineLabel: document.querySelector('label[for="lengthOfLine"]')
     };
-}
-
-
-export function getPlayerObject() {
-    return playerObject;
 }
 
 export function setGameStateVariable(value) {
@@ -183,24 +190,20 @@ export function setDrawingNow(value) {
     drawingNow = value;
 }
 
-export function getDrawSpeed() {
-    return DRAW_SPEED;
+export function getTreeDrawSpeed() {
+    return treeDrawSpeed;
 }
 
 export function getLengthScalingFactor() {
-    return LENGTH_SCALING_FACTOR;
+    return lengthScalingFactor;
 }
 
-export function getLineColor() {
-    return lineColor;
+export function getAngleOfLines() {
+    return angleOfLines;
 }
 
-export function getAngleDegrees() {
-    return ANGLE_DEGREES;
-}
-
-export function getLayersQuantity() {
-    return LAYERS_QUANTITY;
+export function getLayerQuantity() {
+    return layerQuantity;
 }
 
 export function setLineThickness(value) {
@@ -209,4 +212,32 @@ export function setLineThickness(value) {
 
 export function getLineThickness() {
     return lineThickness;
+}
+
+export function getLineColor() {
+    return lineColor;
+}
+
+export function setLayerQuantity(value) {
+    layerQuantity = value;
+}
+
+export function setAngleOfLines(value) {
+    angleOfLines = value;
+}
+
+export function setLengthScalingFactor(value) {
+    lengthScalingFactor = value;
+}
+
+export function setTreeDrawSpeed(value) {
+    treeDrawSpeed = value;
+}
+
+export function getLengthOfLine() {
+    return lengthOfInitialLine;
+}
+
+export function setLengthOfLine(value) {
+    lengthOfInitialLine = value;
 }

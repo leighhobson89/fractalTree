@@ -210,3 +210,27 @@ canvas {
     z-index: 998;
 }
 
+#floatingContainerLeft {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100vh;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#innerContainer {
+    width: 95%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.side-bars-elements {
+    font-size: 0.8rem;
+}
+

@@ -1,5 +1,5 @@
 import { getLanguage, setElements, getElements, setBeginGameStatus, getGameInProgress, setGameInProgress, getGameVisibleActive, getMenuState, getLanguageSelected, setLanguageSelected, setLanguage, getDrawingNow, setDrawingNow } from './constantsAndGlobalVars.js';
-import { setGameState, startGame } from './game.js';
+import { clearCanvasAndReset, setGameState, startGame } from './game.js';
 import { initLocalization, localize } from './localization.js';
 
 
@@ -21,8 +21,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // });
 
     getElements().button1.addEventListener('click', () => {
+        if (!getDrawingNow()) {
+            clearCanvasAndReset();
+        }
         setDrawingNow(!getDrawingNow());
-    });
+    });    
 
     // getElements().button2.addEventListener('click', () => {
     //     //BUTTON 2 CODE
