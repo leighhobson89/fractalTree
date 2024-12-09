@@ -24,9 +24,9 @@ let beginGameState = true;
 let gameInProgress = false;
 let drawingNow = false;
 let lineThickness = 5;
-let lineColor = 'green';
+let lineColor = '#00FF00';
 
-let layerQuantity = 20;
+let layerQuantity = 8;
 let angleOfLines = 66;
 let lengthScalingFactor = 0.66;
 let treeDrawSpeed = 2;
@@ -57,7 +57,9 @@ export function setElements() {
         lengthScalingFactorLabel: document.querySelector('label[for="lengthScalingFactor"]'),
         treeDrawSpeedLabel: document.querySelector('label[for="treeDrawSpeed"]'),
         lengthOfLine: document.getElementById('lengthOfLine'),
-        lengthOfLineLabel: document.querySelector('label[for="lengthOfLine"]')
+        lengthOfLineLabel: document.querySelector('label[for="lengthOfLine"]'),
+        lineColor: document.getElementById('lineColor'),
+        lineColorLabel: document.querySelector('label[for="lineColor"]')
     };
 }
 
@@ -216,6 +218,10 @@ export function getLineThickness() {
 
 export function getLineColor() {
     return lineColor;
+}
+
+export function setLineColor(value) {
+    lineColor = value;
 }
 
 export function setLayerQuantity(value) {

@@ -1,4 +1,4 @@
-import { setLengthOfLine, getLengthOfLine, setDrawingNow, setLayerQuantity, setAngleOfLines, setLengthScalingFactor, setTreeDrawSpeed, setLineThickness, getLineThickness, getLayerQuantity, getAngleOfLines, getLineColor, getLengthScalingFactor, getTreeDrawSpeed, getDrawingNow, setBeginGameStatus, setGameStateVariable, getBeginGameStatus, getMenuState, getGameVisibleActive, getElements, getLanguage, gameState } from './constantsAndGlobalVars.js';
+import { setLineColor, setLengthOfLine, getLengthOfLine, setDrawingNow, setLayerQuantity, setAngleOfLines, setLengthScalingFactor, setTreeDrawSpeed, getLineThickness, getLayerQuantity, getAngleOfLines, getLineColor, getLengthScalingFactor, getTreeDrawSpeed, getDrawingNow, setBeginGameStatus, setGameStateVariable, getBeginGameStatus, getMenuState, getGameVisibleActive, getElements, getLanguage, gameState } from './constantsAndGlobalVars.js';
 
 //--------------------------------------------------------------------------------------------------------
 
@@ -187,12 +187,19 @@ export function clearCanvasAndReset() {
 
 
 function initialiseSideBarElements() {
+
+    // Show the color picker and its label
+    getElements().lineColor.classList.remove('d-none');
+    getElements().lineColorLabel.classList.remove('d-none');
+
+    // Initialize the other fields
     getElements().layerQuantity.value = getLayerQuantity();
     getElements().angleOfLines.value = getAngleOfLines();
     getElements().lengthOfLine.value = getLengthOfLine();
     getElements().lengthScalingFactor.value = getLengthScalingFactor();
     getElements().treeDrawSpeed.value = getTreeDrawSpeed();
 
+    // Show the other fields and their labels
     getElements().layerQuantity.classList.remove('d-none');
     getElements().angleOfLines.classList.remove('d-none');
     getElements().lengthOfLine.classList.remove('d-none');
@@ -206,8 +213,14 @@ function initialiseSideBarElements() {
     getElements().treeDrawSpeedLabel.classList.remove('d-none');
 }
 
-
 export function updateInputFieldValues() {
+    // Get the color picker value
+    const lineColorField = getElements().lineColor;
+    const lineColorValue = lineColorField.value;
+
+    setLineColor(lineColorValue);
+
+    // Get the values of other fields
     const layerQuantityField = getElements().layerQuantity;
     const angleOfLinesField = getElements().angleOfLines;
     const lengthOfLineField = getElements().lengthOfLine;

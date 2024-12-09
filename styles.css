@@ -234,3 +234,7 @@ canvas {
     font-size: 0.8rem;
 }
 
+#lineColor {
+    padding: 0 !important;
+}
+
