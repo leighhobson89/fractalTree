@@ -166,7 +166,6 @@ const draw = (ctx) => {
     }
 };
 
-
 export function clearCanvasAndReset() {
     const ctx = getElements().canvas.getContext('2d');
     const canvasWidth = getElements().canvas.width;
@@ -184,7 +183,6 @@ export function clearCanvasAndReset() {
     draw.currentLayerLength = canvasHeight * 0.25 * getLengthScalingFactor();
     draw.layerCount = 0;
 }
-
 
 function initialiseSideBarElements() {
 
@@ -319,12 +317,7 @@ export function setGameState(newState) {
             getElements().buttonRow.classList.remove('d-flex');
             getElements().canvasContainer.classList.remove('d-flex');
             getElements().canvasContainer.classList.add('d-none');
-            // getElements().returnToMenuButton.classList.remove('d-flex');
-            // getElements().returnToMenuButton.classList.add('d-none');
             getElements().button1.classList.add('d-none');
-            // getElements().button2.classList.add('d-none');
-
-            console.log("Language is " + getLanguage());
             break;
         case getGameVisibleActive():
             getElements().menu.classList.remove('d-flex');
@@ -333,11 +326,7 @@ export function setGameState(newState) {
             getElements().buttonRow.classList.add('d-flex');
             getElements().canvasContainer.classList.remove('d-none');
             getElements().canvasContainer.classList.add('d-flex');
-            // getElements().returnToMenuButton.classList.remove('d-none');
-            // getElements().returnToMenuButton.classList.add('d-flex');
-            // getElements().returnToMenuButton.innerHTML = `${localize('menuTitle', getLanguage())}`;
             getElements().button1.classList.remove('d-none');
-            // getElements().button2.classList.remove('d-none');
             break;
     }
 }
