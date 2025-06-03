@@ -20,27 +20,47 @@
         <div id="innerContainer">
             <div class="input-container">
                 <label for="lineColor" class="d-none form-label side-bars-elements">Tree Color:</label>
-                <input type="color" id="lineColor" name="lineColor" value="#00ff00" class="d-none form-control side-bars-elements">
+                <input type="color" id="lineColor" name="lineColor" value="#00ff00" class="d-none form-control side-bars-elements" 
+                       data-toggle="tooltip" data-placement="right" title="Click to choose the color of your fractal tree">
             </div>
             <div class="input-container">
                 <label for="layerQuantity" class="d-none form-label side-bars-elements">Layer Quantity</label>
-                <input id="layerQuantity" type="number" class="d-none form-control side-bars-elements" placeholder="Enter Layer Quantity">
+                <input id="layerQuantity" type="number" class="d-none form-control side-bars-elements" 
+                       placeholder="Enter Layer Quantity" data-toggle="tooltip" data-placement="right" 
+                       title="Number of recursive layers in the fractal tree (higher = more detailed but slower to render)">
             </div>
             <div class="input-container">
                 <label for="angleOfLines" class="d-none form-label side-bars-elements">Angle of Lines</label>
-                <input id="angleOfLines" type="number" class="d-none form-control side-bars-elements" placeholder="Enter Angle of Lines">
+                <input id="angleOfLines" type="number" class="d-none form-control side-bars-elements" 
+                       placeholder="Enter Angle of Lines" data-toggle="tooltip" data-placement="right" 
+                       title="Angle (in degrees) between branches">
             </div>
             <div class="input-container">
                 <label for="lengthOfLine" class="d-none form-label side-bars-elements">Trunk Length</label>
-                <input id="lengthOfLine" type="number" class="d-none form-control side-bars-elements" placeholder="Enter Line Length">
+                <input id="lengthOfLine" type="number" class="d-none form-control side-bars-elements" 
+                       placeholder="Enter Line Length" data-toggle="tooltip" data-placement="right" 
+                       title="Initial length of the trunk (as a fraction of canvas height)">
             </div>
             <div class="input-container">
                 <label for="lengthScalingFactor" class="d-none form-label side-bars-elements">Branch Length</label>
-                <input id="lengthScalingFactor" type="number" class="d-none form-control side-bars-elements" placeholder="Enter Length Scaling Factor">
+                <input id="lengthScalingFactor" type="number" step="0.01" class="d-none form-control side-bars-elements" 
+                       placeholder="Enter Length Scaling Factor" data-toggle="tooltip" data-placement="right" 
+                       title="Scaling factor for branch lengths (smaller = shorter branches)">
             </div>
             <div class="input-container">
                 <label for="treeDrawSpeed" class="d-none form-label side-bars-elements">Draw Speed</label>
-                <input id="treeDrawSpeed" type="number" class="d-none form-control side-bars-elements" placeholder="Enter Draw Speed">
+                <input id="treeDrawSpeed" type="number" class="d-none form-control side-bars-elements" 
+                       placeholder="Enter Draw Speed" data-toggle="tooltip" data-placement="right" 
+                       title="Speed at which the tree is drawn (higher = faster)">
+                
+                <div class="form-check d-none side-bars-elements mt-2">
+                    <input class="form-check-input" type="checkbox" id="ditherCheckbox" 
+                           data-toggle="tooltip" data-placement="right"
+                           title="Adds natural variation to branch angles and lengths">
+                    <label class="form-check-label" for="ditherCheckbox">
+                        Dither
+                    </label>
+                </div>
             </div>
         </div>
     </div>      
@@ -59,14 +79,19 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Load Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Load Bootstrap JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Other dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
 
-    <script type="module" src="game.js"></script>
-    <script type="module" src="localization.js"></script>
+    <!-- Our scripts -->
     <script type="module" src="constantsAndGlobalVars.js"></script>
+    <script type="module" src="localization.js"></script>
+    <script type="module" src="game.js"></script>
     <script type="module" src="ui.js"></script>
 </body>
 </html>

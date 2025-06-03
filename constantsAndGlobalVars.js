@@ -31,6 +31,7 @@ let angleOfLines = 66;
 let lengthScalingFactor = 0.66;
 let treeDrawSpeed = 2;
 let lengthOfInitialLine = 0.25;
+let ditherActive = false;
 
 let autoSaveOn = false;
 export let pauseAutoSaveCountdown = true;
@@ -246,4 +247,12 @@ export function getLengthOfLine() {
 
 export function setLengthOfLine(value) {
     lengthOfInitialLine = value;
+}
+
+export function setDitherActive(value) {
+    ditherActive = value;
+}
+
+export function getDitherActive() {
+    return ditherActive;
 }

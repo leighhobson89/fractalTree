@@ -1,4 +1,4 @@
-import { setLineColor, setLengthOfLine, getLengthOfLine, setDrawingNow, setLayerQuantity, setAngleOfLines, setLengthScalingFactor, setTreeDrawSpeed, getLineThickness, getLayerQuantity, getAngleOfLines, getLineColor, getLengthScalingFactor, getTreeDrawSpeed, getDrawingNow, setBeginGameStatus, setGameStateVariable, getBeginGameStatus, getMenuState, getGameVisibleActive, getElements, getLanguage, gameState } from './constantsAndGlobalVars.js';
+import { setLineColor, setLengthOfLine, getLengthOfLine, setDrawingNow, setLayerQuantity, setAngleOfLines, setLengthScalingFactor, setTreeDrawSpeed, getLineThickness, getLayerQuantity, getAngleOfLines, getLineColor, getLengthScalingFactor, getTreeDrawSpeed, getDrawingNow, setBeginGameStatus, setGameStateVariable, getBeginGameStatus, getMenuState, getGameVisibleActive, getElements, getLanguage, gameState, getDitherActive } from './constantsAndGlobalVars.js';
 
 //--------------------------------------------------------------------------------------------------------
 
@@ -207,6 +207,12 @@ function initialiseSideBarElements() {
     getElements().lengthOfLineLabel.classList.remove('d-none');
     getElements().lengthScalingFactorLabel.classList.remove('d-none');
     getElements().treeDrawSpeedLabel.classList.remove('d-none');
+    
+    // Show the dither checkbox and its container
+    const ditherContainer = document.querySelector('.form-check');
+    if (ditherContainer) {
+        ditherContainer.classList.remove('d-none');
+    }
 }
 
 export function updateInputFieldValues() {
@@ -299,6 +305,22 @@ export function updateInputFieldValues() {
     }
 }
 
+// Utility function to get a random number between min and max (inclusive)
+const getRandomInRange = (min, max) => Math.random() * (max - min) + min;
+
+// Returns the angle with a random variation of ±5-10 degrees
+const getRandomizedAngle = (angleInDegrees) => {
+    const variation = getRandomInRange(5, 10);
+    const direction = Math.random() > 0.5 ? 1 : -1; // Randomly add or subtract
+    return angleInDegrees + (variation * direction);
+};
+
+// Returns the length with a random variation of ±10-25%
+const getRandomizedLength = (length) => {
+    const variation = getRandomInRange(10, 25) / 100; // Convert percentage to decimal
+    const direction = Math.random() > 0.5 ? 1 : -1; // Randomly add or subtract
+    return length * (1 + (variation * direction));
+};
 
 //===============================================================================================================
 

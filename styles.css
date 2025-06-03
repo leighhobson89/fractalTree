@@ -4,6 +4,116 @@ body {
     font-family: Arial, sans-serif;
     background-color: black;
     color: white;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* Make form labels and checkbox labels white */
+.form-label,
+.form-check-label {
+    color: white !important;
+}
+
+/* Style the checkbox to be more visible on dark background */
+.form-check-input {
+    background-color: #333;
+    border-color: #666;
+}
+
+/* Custom tooltip styling */
+.tooltip {
+    position: fixed !important;
+    z-index: 10000 !important;
+    pointer-events: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+.tooltip.show {
+    opacity: 1 !important;
+}
+
+.tooltip-inner {
+    max-width: 300px;
+    padding: 8px 12px;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    color: #fff;
+    font-size: 14px;
+    font-weight: normal;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.tooltip .arrow {
+    display: none; /* Hide the arrow for now to simplify positioning */
+}
+
+/* Remove any transform that might be affecting positioning */
+.tooltip.bs-tooltip-auto,
+.tooltip.bs-tooltip-top,
+.tooltip.bs-tooltip-bottom,
+.tooltip.bs-tooltip-left,
+.tooltip.bs-tooltip-right {
+    transform: none !important;
+    margin: 0 !important;
+}
+
+.tooltip.bs-tooltip-top .arrow,
+.tooltip.bs-tooltip-auto[x-placement^="top"] .arrow {
+    bottom: 0;
+}
+
+.tooltip.bs-tooltip-top .arrow::before,
+.tooltip.bs-tooltip-auto[x-placement^="top"] .arrow::before {
+    top: 0;
+    border-width: 0.4rem 0.4rem 0;
+    border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+.tooltip.bs-tooltip-right .arrow,
+.tooltip.bs-tooltip-auto[x-placement^="right"] .arrow {
+    left: 0;
+    width: 0.4rem;
+    height: 0.8rem;
+}
+
+.tooltip.bs-tooltip-right .arrow::before,
+.tooltip.bs-tooltip-auto[x-placement^="right"] .arrow::before {
+    right: 0;
+    border-width: 0.4rem 0.4rem 0.4rem 0;
+    border-right-color: rgba(0, 0, 0, 0.9);
+}
+
+.tooltip.bs-tooltip-bottom .arrow,
+.tooltip.bs-tooltip-auto[x-placement^="bottom"] .arrow {
+    top: 0;
+}
+
+.tooltip.bs-tooltip-bottom .arrow::before,
+.tooltip.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
+    bottom: 0;
+    border-width: 0 0.4rem 0.4rem;
+    border-bottom-color: rgba(0, 0, 0, 0.9);
+}
+
+.tooltip.bs-tooltip-left .arrow,
+.tooltip.bs-tooltip-auto[x-placement^="left"] .arrow {
+    right: 0;
+    width: 0.4rem;
+    height: 0.8rem;
+}
+
+.tooltip.bs-tooltip-left .arrow::before,
+.tooltip.bs-tooltip-auto[x-placement^="left"] .arrow::before {
+    left: 0;
+    border-width: 0.4rem 0 0.4rem 0.4rem;
+    border-left-color: rgba(0, 0, 0, 0.9);
 }
 
 #menu {
